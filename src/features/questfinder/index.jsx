@@ -62,7 +62,8 @@ const Questfinder = () => {
       const totalScore = _.sumBy(cityLocations, 'score');
       return [...m, ...(cityLocations.map(cl => ({ ...cl, city: city.name, totalScore })))];
     }, []);
-    setTopLocationScore((_.maxBy(results, 'score')).score);
+    const max = (_.maxBy(results, 'score'));
+    setTopLocationScore(max ? max.score : 0);
     return _.orderBy(results, ['totalScore', 'city', 'score'], 'desc');
   };
 
@@ -177,7 +178,7 @@ const Questfinder = () => {
             {_.isEmpty(queryResults) && _.isEmpty(rewardQueryResults) && 'No Results'}
             {(!_.isEmpty(queryResults) || !_.isEmpty(rewardQueryResults)) && (
               <div>
-                <Table borderless>
+                <Table borderless className="bg-dark">
                   <thead>
                     {_.isEmpty(selectedClass) ? (
                       <tr>
@@ -218,7 +219,7 @@ const Questfinder = () => {
                             </tr>
                             )}
                             {!_.isEmpty(qr.scores) && qr.scores.map((cs, i) => (
-                              <tr className={i === 0 ? 'table-primary' : ''}>
+                              <tr>
                                 <td>{qr.name}</td>
                                 <td>{cs.name}</td>
                                 <td>{cs.score}</td>
